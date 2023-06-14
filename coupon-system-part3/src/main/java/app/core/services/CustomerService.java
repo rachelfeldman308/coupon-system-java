@@ -12,9 +12,11 @@ import app.core.exceptions.CouponSystemException;
 @Service
 public interface CustomerService {
 
-	Coupon PurchaseCoupon(Coupon coupon, int customerId) throws CouponSystemException;
+	Coupon PurchaseCoupon(int couponId, int customerId) throws CouponSystemException;
 
 	List<Coupon> getCustomerCoupons(int customerId);
+
+	List<Coupon> getAllCoupons();
 
 	List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) throws CouponSystemException;
 

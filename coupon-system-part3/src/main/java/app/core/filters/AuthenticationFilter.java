@@ -65,7 +65,7 @@ public class AuthenticationFilter implements Filter {
 				// response to a cross-origin request.
 				resp.setHeader("Access-Control-Expose-Headers", "*");
 
-				resp.sendError(HttpStatus.UNAUTHORIZED.value(), "You need to login - " + e.getMessage());
+				resp.sendError(HttpStatus.UNAUTHORIZED.value(), "You need to login");
 			}
 		}
 

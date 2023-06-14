@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,16 +29,21 @@ public class CustomerController {
 	@Autowired
 	private CustomerServiceImpl customerServiceImpl;
 
-	@PostMapping(headers = { HttpHeaders.AUTHORIZATION })
-	public Coupon PurchaseCoupon(@RequestBody Coupon coupon, HttpServletRequest req) throws CouponSystemException {
+	@PostMapping(path = "/add-coupon/{couponId}", headers = { HttpHeaders.AUTHORIZATION })
+	public Coupon PurchaseCoupon(@PathVariable int couponId, HttpServletRequest req) throws CouponSystemException {
 		UserCredentials userCredentials = (UserCredentials) req.getAttribute("userCredentials");
-		return this.customerServiceImpl.PurchaseCoupon(coupon, userCredentials.getId());
+		return this.customerServiceImpl.PurchaseCoupon(couponId, userCredentials.getId());
 	}
 
 	@GetMapping(path = "/customer-coupons", headers = { HttpHeaders.AUTHORIZATION })
 	public List<Coupon> getCustomerCoupons(HttpServletRequest req) {
 		UserCredentials userCredentials = (UserCredentials) req.getAttribute("userCredentials");
 		return this.customerServiceImpl.getCustomerCoupons(userCredentials.getId());
+	}
+
+	@GetMapping(path = "/coupons", headers = { HttpHeaders.AUTHORIZATION })
+	public List<Coupon> getAllCoupons() {
+		return this.customerServiceImpl.getAllCoupons();
 	}
 
 	@GetMapping(path = "/customer-coupons-by-category", headers = { HttpHeaders.AUTHORIZATION })
